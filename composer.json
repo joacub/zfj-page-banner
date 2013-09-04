@@ -1,0 +1,26 @@
+{
+    "name": "joacub/zfj-page-banner",
+    "description": "Crea facimente imagesnes de cabecera o para lo que te de la gana en cada pagina",
+    "type": "library",
+    "keywords": [
+        "zf2", "navegacion", "navigation"
+    ],
+    "homepage": "https://github.com/joacub/zfj-page-banner",
+    "authors": [
+        {
+            "name": "Johan",
+            "email": "joacub@gmail.com"
+        }
+    ],
+    "require": {
+        "zendframework/zendframework": "2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "ZfjPageBanner\\": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}

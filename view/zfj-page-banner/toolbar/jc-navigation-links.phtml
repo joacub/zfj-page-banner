@@ -1,0 +1,40 @@
+<?php
+use Zend\Json\Json;
+/* @var $collector \JcBlog\Collector\MenuCollector */
+$pages = array(); //$collector->getCollectedPages();
+$pagesCount = count($pages);
+?>
+<div class="box gradient">
+
+	<div class="title">
+
+		<h4>
+			<span>Enlaces personalizados</span>
+		</h4>
+		<a class="minimize" href="#" style="display: none;">Minimize</a>
+	</div>
+	<div style="padding-bottom: 0px; display: block;" class="content" id="page-menu">
+			<!-- Only required for left/right tabs -->
+
+								<p id="menu-item-url-wrap">
+									<label for="custom-menu-item-url" class="howto">
+										<span>URL</span>
+										<input type="text" value="http://" class="code menu-item-textbox" name="menu-item[-1][menu-item-url]" id="custom-menu-item-url">
+									</label>
+								</p>
+					
+								<p id="menu-item-name-wrap">
+									<label for="custom-menu-item-name" class="howto">
+										<span>Etiqueta</span>
+										<input type="text" title="Elemento del menú" class="regular-text menu-item-textbox input-with-default-title" name="menu-item[-1][menu-item-title]" id="custom-menu-item-name">
+									</label>
+								</p>
+					
+
+
+		<button id="submit-customlinkdiv" class="btn btn-primary submit-add-to-menu" type="button">Añadir páginas</button>
+		<br style="clear: both;"> <br style="clear: both;">
+	</div>
+
+</div>
+<!-- End .box -->
