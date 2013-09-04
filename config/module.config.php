@@ -1,6 +1,5 @@
 <?php
-namespace ZfJPageBanner;
-
+namespace ZfjPageBanner;
 return array(
 	'doctrine' => array(
 		'driver' => array(
@@ -27,8 +26,8 @@ return array(
 	),
 	'view_manager' => array(
 		'template_path_stack' => array(
-			'default' => __DIR__ . '/../view',
-		),
+			'default' => __DIR__ . '/../view'
+		)
 	),
 	'router' => array(
 		'routes' => array(
@@ -39,33 +38,42 @@ return array(
 						'options' => array(
 							'route' => '/' . __NAMESPACE__ . '[/:action]',
 							'defaults' => array(
-								'controller' => __NAMESPACE__ . '\Controller\Admin\Index',
-								'action' => 'index',
-							),
-						),
+								'controller' => __NAMESPACE__ .
+										 '\Controller\Admin\Index',
+										'action' => 'index'
+							)
+						)
 					)
-				),
-			),
-		),
+				)
+			)
+		)
 	),
 	
 	'controllers' => array(
 		'invokables' => array(
-			__NAMESPACE__ . '\Controller\Admin\Index' => __NAMESPACE__ . '\Controller\Admin_IndexController',
-		),
+			__NAMESPACE__ . '\Controller\Admin\Index' => __NAMESPACE__ .
+			 '\Controller\Admin_IndexController'
+		)
 	),
 	'navigation' => array(
 		'admin' => array(
-			'jc-navigation' => array(
-				'label' => 'Menús de navegación',
-				'route' => 'zfcadmin/' . __NAMESPACE__,
-			),
-		),
+			'settings' => array(
+				'label' => 'Ajustes',
+				'uri' => '#',
+				'pages' => array(
+					
+					'zfj-page-banner' => array(
+						'label' => 'Imagénes de páginas',
+						'route' => 'zfcadmin/' . __NAMESPACE__
+					)
+				)
+			)
+		)
 	),
-	'ZfJPageBanner' => array(
+	'ZfjPageBanner' => array(
 		'profiler' => array(
 			'collectors' => array(
-				'jc_navigation_links_collector' => 'ZfJPageBanner\\Collector\\UriCollector'
+				'jc_navigation_links_collector' => 'ZfjPageBanner\\Collector\\UriCollector'
 			)
 		),
 		'toolbar' => array(
