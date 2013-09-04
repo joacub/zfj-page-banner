@@ -1,17 +1,17 @@
 <?php
 use Nette\Diagnostics\Debugger;
-use ZfJPageBanner\Collector\AbstractEntityCollector;
+use ZfjPageBanner\Collector\AbstractEntityCollector;
 $this->headLink()->prependStylesheet(
-		$this->basepath('/jc-navigation/css/main.css'));
+		$this->basepath('/zfj-page-banner/css/main.css'));
 $this->inlinescript()->appendFile(
 		'//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js');
-$this->inlinescript()->appendFile($this->basepath('/jc-navigation/js/main.js'));
+$this->inlinescript()->appendFile($this->basepath('/zfj-page-banner/js/main.js'));
 
 $recursiveHydrator = function($entity) use(&$recursiveHydrator, $sm, $em, $repo, $collectors) {
 	if($entity->getParent() !== null) {
 		$collector = $sm->get($collectors[$entity->getCollector()]);
 		$originalEntity = $em->find($collector->getEntity(), $entity->getReferenceId());
-		echo $this->partial('jc-navigation/admin_index/add-menu-item', array('menuItems' => array(array('data' => $entity, 'entity' => $originalEntity, 'collector' => $collector))));
+		echo $this->partial('zfj-page-banner/admin_index/add-menu-item', array('menuItems' => array(array('data' => $entity, 'entity' => $originalEntity, 'collector' => $collector))));
 	}
 	
 	$children = $repo->getChildren($entity);
@@ -24,7 +24,7 @@ $recursiveHydrator = function($entity) use(&$recursiveHydrator, $sm, $em, $repo,
 			if($collector instanceof AbstractEntityCollector) {
 				$originalEntity = $em->find($collector->getEntity(), $child->getReferenceId());
 			}
-			echo $this->partial('jc-navigation/admin_index/add-menu-item', array('menuItems' => array(array('data' => $child, 'entity' => $originalEntity, 'collector' => $collector))));
+			echo $this->partial('zfj-page-banner/admin_index/add-menu-item', array('menuItems' => array(array('data' => $child, 'entity' => $originalEntity, 'collector' => $collector))));
 		}
 	}
 	
@@ -34,15 +34,14 @@ $recursiveHydrator = function($entity) use(&$recursiveHydrator, $sm, $em, $repo,
 
 <div class="page-header">
 
-	<h1>Menús</h1>
-	<small>Esta funcionalidad te permite utilizar un menú personalizado en
-		vez de los menús por defecto de tu tema.</small>
+	<h1>Banners de páginas</h1>
+	<small>Esta funcionalidad te permite agregar imagenes a todas las páginas que desees</small>
 
 </div>
 
 <div class="row-fluid">
 	<div class="col-md-4">
-		<div id="menu-settings-column" class="metabox-holder<?php echo !$activeMenu ?  '-disabled' : ''?>">{jc-navigation-toolbar}</div>
+		<div id="menu-settings-column" class="metabox-holder<?php echo !$activeMenu ?  '-disabled' : ''?>">{zfj-page-banner-toolbar}</div>
 	</div>
 	<!-- End .col-md-8 -->
 
@@ -56,13 +55,13 @@ $recursiveHydrator = function($entity) use(&$recursiveHydrator, $sm, $em, $repo,
 					<?php if($activeMenu == $navigation->getId()): $active = $navigation; ?>
 					<span class="nav-tab nav-tab-active"> <?php echo $navigation->getTitle() ?> </span>
 					<?php else: ?>
-					<a class="nav-tab" href="<?php echo $this->url('zfcadmin/ZfJPageBanner', array(), array('query' => array('menu' => $navigation->getId()))) ?>">
+					<a class="nav-tab" href="<?php echo $this->url('zfcadmin/ZfjPageBanner', array(), array('query' => array('menu' => $navigation->getId()))) ?>">
 						<?php echo $navigation->getTitle() ?> </a>
 					<?php endif; ?>
 					<?php endforeach; ?>
 					<?php if(isset($active)):?>
 					<a class="nav-tab menu-add-new"
-						href="<?php echo $this->url('zfcadmin/ZfJPageBanner', array(), array('query' => array('menu' => 0))) ?>">
+						href="<?php echo $this->url('zfcadmin/ZfjPageBanner', array(), array('query' => array('menu' => 0))) ?>">
 						<abbr title="Añadir menú">+</abbr>
 					</a>
 					<?php else:?>
@@ -74,14 +73,14 @@ $recursiveHydrator = function($entity) use(&$recursiveHydrator, $sm, $em, $repo,
 				</div>
 				</div>
 <div class="menu-edit">
-			<form id="update-nav-menu" enctype="multipart/form-data"	method="post" action="<?php if(isset($active)): echo $this->url('zfcadmin/ZfJPageBanner', array('action' => 'update'), array('query' => array('menu' => $activeMenu))); else : echo $this->url('zfcadmin/ZfJPageBanner', array('action' => 'create'), array('query' => array('menu' => $activeMenu))); endif; ?>">
+			<form id="update-nav-menu" enctype="multipart/form-data"	method="post" action="<?php if(isset($active)): echo $this->url('zfcadmin/ZfjPageBanner', array('action' => 'update'), array('query' => array('menu' => $activeMenu))); else : echo $this->url('zfcadmin/ZfjPageBanner', array('action' => 'create'), array('query' => array('menu' => $activeMenu))); endif; ?>">
 				
 				<div id="nav-menu-header">
 						<div class="submitbox" id="submitpost">
 							<div class="major-publishing-actions">
 								<label for="menu-name" class="menu-name-label howto open-label">
-									<span>Nombre del menú</span>
-									<input type="text" value="<?php if(isset($active)) : echo $active->getTitle(); endif; ?>" title="Introduce el nombre del menú aquí." class="menu-name regular-text menu-item-textbox input-with-default-title" id="menu-name" name="menu-name">
+									<span>Nombre de carpeta</span>
+									<input type="text" value="<?php if(isset($active)) : echo $active->getTitle(); endif; ?>" title="Introduce el nombre tu carpeta aquí." class="menu-name regular-text menu-item-textbox input-with-default-title" id="menu-name" name="menu-name">
 								</label>
 														
 														<?php  if(!isset($active)) :?>		
@@ -134,6 +133,8 @@ $recursiveHydrator = function($entity) use(&$recursiveHydrator, $sm, $em, $repo,
 		</div>
 		
 		</div><!-- End .box -->
+		
+		<?php echo str_replace(array('class="btn', 'col-lg-7'), array('class="btn btn-sm', 'col-lg-8'), $uploader) ?>
 
 	</div>
 	<!-- End .col-md-4 -->

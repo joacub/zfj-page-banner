@@ -2,16 +2,16 @@
 /**
  * Zend Developer Tools for Zend Framework (http://framework.zend.com/)
  *
- * @link       http://github.com/zendframework/ZfJPageBanner for the canonical source repository
+ * @link       http://github.com/zendframework/ZfjPageBanner for the canonical source repository
  * @copyright  Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace ZfJPageBanner\Listener;
+namespace ZfjPageBanner\Listener;
 
 use Zend\Mvc\MvcEvent;
-use ZfJPageBanner\Options;
-use ZfJPageBanner\Profiler;
+use ZfjPageBanner\Options;
+use ZfjPageBanner\Profiler;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -86,8 +86,8 @@ class ProfilerListener implements ListenerAggregateInterface
     {
         $strict     = $this->options->isStrict();
         $collectors = $this->options->getCollectors();
-        $report     = $this->serviceLocator->get('ZfJPageBanner\Report');
-        $profiler   = $this->serviceLocator->get('ZfJPageBanner\Profiler');
+        $report     = $this->serviceLocator->get('ZfjPageBanner\Report');
+        $profiler   = $this->serviceLocator->get('ZfjPageBanner\Profiler');
 
         $profiler->setErrorMode($strict);
 

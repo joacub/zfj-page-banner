@@ -2,12 +2,12 @@
 /**
  * Zend Developer Tools for Zend Framework (http://framework.zend.com/)
  *
- * @link      http://github.com/zendframework/ZfJPageBanner for the canonical source repository
+ * @link      http://github.com/zendframework/ZfjPageBanner for the canonical source repository
  * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace ZfJPageBanner;
+namespace ZfjPageBanner;
 
 use Zend\Stdlib\AbstractOptions;
 use Nette\Diagnostics\Debugger;
@@ -94,7 +94,7 @@ class Options extends AbstractOptions
     {
         if (!is_array($options)) {
             $this->report->addError(sprintf(
-                '[\'ZfJPageBanner\'][\'profiler\'][\'matcher\'] must be an array, %s given.',
+                '[\'ZfjPageBanner\'][\'profiler\'][\'matcher\'] must be an array, %s given.',
                 gettype($options)
             ));
 
@@ -113,7 +113,7 @@ class Options extends AbstractOptions
     {
         if (!is_array($options)) {
             $this->report->addError(sprintf(
-                '[\'ZfJPageBanner\'][\'profiler\'][\'collectors\'] must be an array, %s given.',
+                '[\'ZfjPageBanner\'][\'profiler\'][\'collectors\'] must be an array, %s given.',
                 gettype($options)
             ));
 
@@ -206,7 +206,7 @@ class Options extends AbstractOptions
         if (isset($options['position'])) {
             if ($options['position'] !== 'bottom' && $options['position'] !== 'top') {
                 $this->report->addError(sprintf(
-                    '[\'ZfJPageBanner\'][\'toolbar\'][\'position\'] must be "top" or "bottom", %s given.',
+                    '[\'ZfjPageBanner\'][\'toolbar\'][\'position\'] must be "top" or "bottom", %s given.',
                     $options['position']
                 ));
             } else {
@@ -224,7 +224,7 @@ class Options extends AbstractOptions
                 }
             } else {
                 $this->report->addError(sprintf(
-                    '[\'ZfJPageBanner\'][\'toolbar\'][\'entries\'] must be an array, %s given.',
+                    '[\'ZfjPageBanner\'][\'toolbar\'][\'entries\'] must be an array, %s given.',
                     gettype($options['entries'])
                 ));
             }

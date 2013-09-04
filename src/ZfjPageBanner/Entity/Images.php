@@ -1,16 +1,16 @@
 <?php
-namespace ZfJPageBanner\Entity;
+namespace ZfjPageBanner\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @Gedmo\Tree(type="nested")
- * @ORM\Table(name="navigation")
+ * @ORM\Table(name="zfj_page_banner")
  * use repository for handy tree functions
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
  */
-class Navigation
+class Images
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -76,13 +76,13 @@ class Navigation
 
     /**
      * @Gedmo\TreeParent
-     * @ORM\ManyToOne(targetEntity="Navigation", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="PageBanner", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $parent;
     
     /**
-     * @ORM\OneToMany(targetEntity="Navigation", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="PageBanner", mappedBy="parent")
      * @ORM\OrderBy({"lft" = "ASC"})
      */
     protected $children;
@@ -199,7 +199,7 @@ class Navigation
     	return $this->lvl;
     }
 
-    public function setParent(Navigation $parent = null)
+    public function setParent(PageBanner $parent = null)
     {
         $this->parent = $parent;    
     }

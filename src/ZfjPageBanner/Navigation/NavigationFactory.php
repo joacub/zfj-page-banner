@@ -1,5 +1,5 @@
 <?php
-namespace ZfJPageBanner\Navigation;
+namespace ZfjPageBanner\Navigation;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

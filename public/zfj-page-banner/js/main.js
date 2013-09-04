@@ -47,6 +47,58 @@ var widgetInit = function() {
 }
 	
 	jQuery(document).ready(function($) {
+		var positionImageBanner = 0;
+		
+		$( ".table-striped:eq(0)" ).sortable({
+		      items:'tbody > tr',
+		      revert:'invalid',
+		      stop: function(e, ui){
+		    	  $('.emptyContainer').fadeOut(function() {$(this).remove();});
+		    	  if( ui.item.find('td').length == 4) {
+		    		  var parts = ui.item.closest('li').attr('id').split('-');
+		    		  var idPage = parts[parts.length-1];
+		    		  
+		    		  var partsImage = ui.item.find('.preview img').attr('src').split('/');
+		    		  partsImage = partsImage[partsImage.length-1];
+		    		  partsImage =  partsImage.split('-');
+		    		  
+		    		  var idImage = partsImage[0];
+		    		  
+		    		  $.ajax({
+		    			  url: site_url + '/admin/ZfjPageBanner/saveImage',
+		    			  'data': {pageid:idPage, imageid:idImage}
+		    			}).done(function() {
+		    			  $(this).addClass("done");
+		    			});
+		    		  
+		    		  var buttonRemove = $('<button>', {'html':'<i class="glyphicon glyphicon-trash"></i>', 'class': 'btn btn-danger '}).click(function(e) {
+		    				e.preventDefault();
+		    				$(this).closest('tr').fadeOut('slow', function() {
+		    					$(this).remove();
+		    				});
+		    			});
+		    			
+		    			var buttonIcon = $('<button>', {'html':'<i class="glyphicon glyphicon-info-sign"></i>', 'class': 'btn btn-info '}).click(function(e) {
+		    				e.preventDefault();
+		    			});
+		    			var buttonPage = $('<button>', {'html':'<i class="glyphicon glyphicon-file"></i>', 'class': 'btn btn-info '}).click(function(e) {
+		    				e.preventDefault();
+		    			});
+		    		  ui.item.find('td:eq(2)').remove();
+			    	  ui.item.find('td:eq(2)').html('').append(buttonIcon).append(buttonPage).append(buttonRemove);
+		    	  }
+		    	  
+	    	    }
+		    }).disableSelection();
+		
+		setTimeout(function() {
+			$( ".table-striped:eq(1) tbody tr" ).draggable({
+			      connectToSortable: ".table-striped:eq(0)",
+			      helper: "clone",
+			      revert:'invalid'
+			    });
+			$( ".table-striped:eq(0)" ).sortable( "refresh" );
+		}, 3000);
 		
 //		$( "#menu-to-edit" ).sortable();
 //		
@@ -574,7 +626,7 @@ var widgetInit = function() {
 
 				api.addItemToMenu({
 					'-1': {
-						'collector': 'jc_navigation_links_collector',
+						'collector': 'zfj_page_banner_links_collector',
 						'menu-item-url': url,
 						'menu-item-title': label
 					}
@@ -592,7 +644,7 @@ var widgetInit = function() {
 					'menu-item': menuItem
 				};
 
-				$.post( site_url + '/admin/ZfJPageBanner/add-menu-item', params, function(menuMarkup) {
+				$.post( site_url + '/admin/ZfjPageBanner/add-menu-item', params, function(menuMarkup) {
 					var ins = $('#menu-instructions');
 					processMethod(menuMarkup, params);
 					if( ! ins.hasClass('menu-instructions-inactive') && ins.siblings().length )

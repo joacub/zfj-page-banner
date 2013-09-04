@@ -1,6 +1,6 @@
 <?php
 /**
- * ZfJPageBanner
+ * ZfjPageBanner
  *
  * LICENSE
  *
@@ -16,15 +16,15 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-namespace ZfJPageBanner\Listener;
+namespace ZfjPageBanner\Listener;
 
 use Zend\Version\Version;
 use Zend\View\Model\ViewModel;
 use Zend\View\Exception\RuntimeException;
-use ZfJPageBanner\Options;
-use ZfJPageBanner\Profiler;
-use ZfJPageBanner\ProfilerEvent;
-use ZfJPageBanner\Exception\InvalidOptionException;
+use ZfjPageBanner\Options;
+use ZfjPageBanner\Profiler;
+use ZfjPageBanner\ProfilerEvent;
+use ZfjPageBanner\Exception\InvalidOptionException;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 
@@ -148,16 +148,16 @@ class ToolbarListener implements ListenerAggregateInterface
         $response    = $event->getApplication()->getResponse();
 
         $toolbarView = new ViewModel(array('entries' => $entries));
-        $toolbarView->setTemplate('jc-navigation/toolbar/toolbar');
+        $toolbarView->setTemplate('zfj-page-banner/toolbar/toolbar');
         $toolbar     = $this->renderer->render($toolbarView);
 
         $toolbarCss  = new ViewModel(array(
             'position' => $this->options->getToolbarPosition(),
         ));
-        $toolbarCss->setTemplate('jc-navigation/toolbar/style');
+        $toolbarCss->setTemplate('zfj-page-banner/toolbar/style');
         $style       = $this->renderer->render($toolbarCss);
 
-        $injected    = preg_replace('/{jc-navigation-toolbar}/i', $toolbar, $response->getBody(), 1);
+        $injected    = preg_replace('/{zfj-page-banner-toolbar}/i', $toolbar, $response->getBody(), 1);
         $injected    = preg_replace('/<\/head>/i', $style . "\n</head>", $injected, 1);
 
         $response->setContent($injected);
@@ -222,7 +222,7 @@ class ToolbarListener implements ListenerAggregateInterface
 
         if ($report->hasErrors()) {
             $errorTpl  = new ViewModel(array('errors' => $report->getErrors()));
-            $errorTpl->setTemplate('jc-navigation/toolbar/error');
+            $errorTpl->setTemplate('zfj-page-navigation/toolbar/error');
             $entries[] = $this->renderer->render($errorTpl);
         }
 
@@ -231,7 +231,7 @@ class ToolbarListener implements ListenerAggregateInterface
 
     /**
      * Wrapper for Zend\Version::getLatest with caching functionality, so that
-     * ZfJPageBanner won't act as a "DDoS bot-network".
+     * ZfjPageBanner won't act as a "DDoS bot-network".
      *
      * @param  string $currentVersion
      * @return array

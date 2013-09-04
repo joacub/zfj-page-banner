@@ -1,6 +1,6 @@
 <?php
 /**
- * ZfJPageBanner
+ * ZfjPageBanner
  *
  * LICENSE
  *
@@ -16,7 +16,7 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-namespace ZfJPageBanner\Collector;
+namespace ZfjPageBanner\Collector;
 
 /**
  * Auto hide Interface provides the ability for collectors, to specify that

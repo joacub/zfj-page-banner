@@ -74,8 +74,44 @@ foreach($this->menuItems as $item): ?>
 				<input type="hidden" value="<?php echo $item['data']->getParent() ? $item['data']->getParent()->getId() : 0 ?>" name="menu-item-parent-id[<?php echo $item['data']->getId() ?>]" class="menu-item-data-parent-id">
 				<input type="hidden" value="<?php echo $item['data']->getLevel() ?>" name="menu-item-position[<?php echo $item['data']->getId() ?>]" class="menu-item-data-position">
 				<input type="hidden" value="<?php echo $item['collector']->getName() ?>" name="menu-item-collector[<?php echo $item['data']->getId() ?>]" class="menu-item-data-type">
+				
+				<table class="table table-striped helperPageHeaderDrop" role="presentation">
+					<tbody class="files">
+					</tbody>
+					
+				</table>
+				<div class="emptyContainer">Arrastra aqui las imagenes</div>
+				
 				</div>
 			</div>
+			
 			<ul class="menu-item-transport"></ul>
 			</li>
+			
+			<style>
+
+			.helperPageHeaderDrop > tbody > tr > td {
+					background-color: #dcdcdc;
+			}
+
+			.helperPageHeaderDrop {
+				float:left;
+				margin-top:20px;
+				height: 50px;
+			}
+			
+			.helperPageHeaderDrop tr {
+				position: relative;
+				z-index: 9;
+			}
+			.emptyContainer {
+				float:left;margin-top:-80px;padding: 15px;text-align: center;
+				width:100%;
+				border: 3px dashed #dcdcdc;
+			}
+			
+			.helperPageHeaderDrop button {
+				margin-left: 3px;
+			}
+			</style>
 			<?php endforeach; ?>

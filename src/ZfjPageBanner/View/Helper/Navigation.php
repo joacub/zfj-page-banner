@@ -1,6 +1,6 @@
 <?php
 
-namespace ZfJPageBanner\View\Helper;
+namespace ZfjPageBanner\View\Helper;
 
 use Zend\View\Helper\Navigation as ZfNavigation;
 

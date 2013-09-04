@@ -1,15 +1,15 @@
 <?php
-namespace ZfJPageBanner\Navigation;
+namespace ZfjPageBanner\Navigation;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Navigation\Service\DefaultNavigationFactory;
 use Doctrine\ORM\EntityManager;
-use ZfJPageBanner\Entity\Navigation as EntityNavigation;
-use ZfJPageBanner\Collector\CollectorInterface;
+use ZfjPageBanner\Entity\Navigation as EntityNavigation;
+use ZfjPageBanner\Collector\CollectorInterface;
 use Zend\Navigation\Exception\InvalidArgumentException;
 use Nette\Diagnostics\Debugger;
-use ZfJPageBanner\Collector\AbstractEntityCollector;
-use ZfJPageBanner\Collector\AbstractCollector;
+use ZfjPageBanner\Collector\AbstractEntityCollector;
+use ZfjPageBanner\Collector\AbstractCollector;
 
 class Navigation extends DefaultNavigationFactory
 {
@@ -19,9 +19,9 @@ class Navigation extends DefaultNavigationFactory
     private function buildNavigationArray($serviceLocator, $node = null)
     {
         // FETCH data from table menu :
-        $em = $serviceLocator->get('jc_navigation_doctrine_em');
+        $em = $serviceLocator->get('zfj_page_banner_doctrine_em');
         $em instanceof EntityManager;
-        $repo = $em->getRepository('ZfJPageBanner\Entity\Navigation');
+        $repo = $em->getRepository('ZfjPageBanner\Entity\Navigation');
         
         if ($node === null) {
             $node = $repo->childrenHierarchy();
@@ -31,7 +31,7 @@ class Navigation extends DefaultNavigationFactory
         
         $view = $serviceLocator->get('viewRenderer');
         
-        $options = $serviceLocator->get('ZfJPageBanner\Config');
+        $options = $serviceLocator->get('ZfjPageBanner\Config');
         $collectors = $options->getCollectors();
         
         $array = array();
@@ -44,8 +44,8 @@ class Navigation extends DefaultNavigationFactory
                 switch (true) {
                     case $collector instanceof AbstractEntityCollector:
                         $entity = $em->find($collector->getEntity(), $row['referenceId']);
-                        $array['jc_navigation_' . $row['id']] = array(
-                        	'id' => 'jc_navigation_' . $row['id'],
+                        $array['zfj_page_banner_' . $row['id']] = array(
+                        	'id' => 'zfj_page_banner_' . $row['id'],
                             'label' => $row['title'],
                             'route' => $collector->getRouter(),
                             'params' => $collector->getRouterParams($entity),
@@ -59,8 +59,8 @@ class Navigation extends DefaultNavigationFactory
                     case $collector instanceof AbstractCollector:
                         $url = (string) $row['url'];
                         $url = (strpos($url, "http://") === 0 || strpos($url, "https://") === 0 ? $url : $view->basePath($url));
-                        $array['jc_navigation_' . $row['id']] = array(
-                        	'id' => 'jc_navigation_' . $row['id'],
+                        $array['zfj_page_banner_' . $row['id']] = array(
+                        	'id' => 'zfj_page_banner_' . $row['id'],
                             'label' => $row['title'],
                             'uri' => $url,
                             'pages' => $this->buildNavigationArray($serviceLocator, $row),
@@ -72,8 +72,8 @@ class Navigation extends DefaultNavigationFactory
                         );
                 }
             } else {
-                $array['jc_navigation_' . $row['id']] = array(
-                	'id' => 'jc_navigation_' . $row['id'],
+                $array['zfj_page_banner_' . $row['id']] = array(
+                	'id' => 'zfj_page_banner_' . $row['id'],
                     'label' => $row['title'],
                     'uri' => '',
                     'pages' => $this->buildNavigationArray($serviceLocator, $row)

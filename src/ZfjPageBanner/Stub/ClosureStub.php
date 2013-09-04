@@ -8,7 +8,7 @@
  */
 
 
-namespace ZfJPageBanner\Stub;
+namespace ZfjPageBanner\Stub;
 
 /**
  * Empty class that represents an {@see \Closure} object

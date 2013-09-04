@@ -7,7 +7,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace ZfJPageBanner;
+namespace ZfjPageBanner;
 
 class Report implements ReportInterface
 {

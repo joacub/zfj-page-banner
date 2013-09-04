@@ -1,5 +1,6 @@
 <?php
 namespace ZfjPageBanner;
+use Zend\Json\Expr;
 return array(
 	'doctrine' => array(
 		'driver' => array(
@@ -26,7 +27,7 @@ return array(
 	),
 	'view_manager' => array(
 		'template_path_stack' => array(
-			'default' => __DIR__ . '/../view'
+			__DIR__ . '/../view'
 		)
 	),
 	'router' => array(
@@ -73,13 +74,30 @@ return array(
 	'ZfjPageBanner' => array(
 		'profiler' => array(
 			'collectors' => array(
-				'jc_navigation_links_collector' => 'ZfjPageBanner\\Collector\\UriCollector'
+				'zfj_page_banner_links_collector' => 'ZfjPageBanner\\Collector\\UriCollector'
 			)
 		),
 		'toolbar' => array(
 			'entries' => array(
-				'jc_navigation_links_collector' => 'jc-navigation/toolbar/jc-navigation-links'
+				'zfj_page_banner_links_collector' => 'zfj-page-banner/toolbar/zfj-page-banner-links'
 			)
 		)
-	)
+	),
+	'JoacubUploader' => array(
+		'uploads' => array(
+			'zfj_banner_page_uploader' => array(
+				'max_number_of_files' => 10,
+				'maxNumberOfFiles' => 10,
+				'dropZone' => new  Expr('$(\'#tranvia_import_workable\')'),
+				'acceptFileTypes' => new Expr('/(\.|\/)(jpg|jpeg|png|gif)$/i'),
+				'maxFileSize' => 100000000,
+				'keywords' => array(
+					'zfj_banner_page_uploader'
+				),
+				'title' => 'Imagenes de cabecera',
+				'subtitle' => '<span class="label label-success">Arrastra las imagenes</span> que esten disponibles hacia la <span class="label label-default">página</span> deseada y sueltala automaticamente se agregara'
+	
+			),
+		)
+	),
 );

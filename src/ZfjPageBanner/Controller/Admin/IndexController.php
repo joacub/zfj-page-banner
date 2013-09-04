@@ -1,14 +1,16 @@
 <?php
-namespace ZfJPageBanner\Controller;
+namespace ZfjPageBanner\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\EventManager\EventInterface;
-use ZfJPageBanner\Exception\InvalidOptionException;
-use ZfJPageBanner\Exception\ProfilerException;
+use ZfjPageBanner\Exception\InvalidOptionException;
+use ZfjPageBanner\Exception\ProfilerException;
 use Nette\Diagnostics\Debugger;
-use ZfJPageBanner\Entity\Navigation;
-use ZfJPageBanner\Collector\AbstractEntityCollector;
-use ZfJPageBanner\Collector\AbstractCollector;
+use ZfjPageBanner\Entity\Navigation;
+use ZfjPageBanner\Collector\AbstractEntityCollector;
+use ZfjPageBanner\Collector\AbstractCollector;
+use ZfjPageBanner\Entity\PageBanner;
+use Zend\View\Model\JsonModel;
 
 class Admin_IndexController extends AbstractActionController
 {
@@ -31,26 +33,26 @@ class Admin_IndexController extends AbstractActionController
 		$sem = $em->getSharedManager();
 		$sm = $app->getServiceManager();
 		
-		$options = $sm->get('ZfJPageBanner\Config');
+		$options = $sm->get('ZfjPageBanner\Config');
 		
 		if (! $options->isEnabled()) {
 			return;
 		}
 		
-		$report = $sm->get('ZfJPageBanner\Report');
+		$report = $sm->get('ZfjPageBanner\Report');
 		
 		if ($options->canFlushEarly()) {
-			$em->attachAggregate($sm->get('ZfJPageBanner\FlushListener'));
+			$em->attachAggregate($sm->get('ZfjPageBanner\FlushListener'));
 		}
 		
 		if ($options->isStrict() && $report->hasErrors()) {
 			throw new InvalidOptionException(implode(' ', $report->getErrors()));
 		}
 		
-		$em->attachAggregate($sm->get('ZfJPageBanner\ProfilerListener'));
+		$em->attachAggregate($sm->get('ZfjPageBanner\ProfilerListener'));
 		
 		if ($options->isToolbarEnabled()) {
-			$sem->attach('profiler', $sm->get('ZfJPageBanner\ToolbarListener'), 
+			$sem->attach('profiler', $sm->get('ZfjPageBanner\ToolbarListener'), 
 					null);
 		}
 		
@@ -64,24 +66,26 @@ class Admin_IndexController extends AbstractActionController
 		$this->onBootstrap($this->getEvent());
 		
 		$repo = $this->getEntityManager()->getRepository(
-				'ZfJPageBanner\Entity\Navigation');
+				'ZfjPageBanner\Entity\PageBanner');
 		
 		$navigations = $repo->findBy(array(
 			'parent' => null
 		));
 		
-		$options = $this->getServiceLocator()->get('ZfJPageBanner\Config');
+		$options = $this->getServiceLocator()->get('ZfjPageBanner\Config');
 		$collectors = $options->getCollectors();
 		$sm = $this->getServiceLocator();
+		$uploader = $sm->get('ZfJoacubUploaderTwb')->create('zfj_banner_page_uploader');
 		
 		return new ViewModel(
 				array(
-					'navigations' => $navigations,
-					'activeMenu' => $this->params()->fromQuery('menu', null),
-					'repo' => $repo,
-					'em' => $this->getEntityManager(),
-					'collectors' => $collectors,
-					'sm' => $sm
+					'navigations' 	=> $navigations,
+					'activeMenu' 	=> $this->params()->fromQuery('menu', null),
+					'repo' 			=> $repo,
+					'em' 			=> $this->getEntityManager(),
+					'collectors' 	=> $collectors,
+					'sm' 			=> $sm,
+					'uploader'		=> $uploader
 				));
 	}
 
@@ -91,16 +95,16 @@ class Admin_IndexController extends AbstractActionController
 		$menuName = $this->params()->fromPost('menu-name', null);
 		
 		if ($menuName === null)
-			return $this->redirect()->toRoute('zfcadmin/ZfJPageBanner');
+			return $this->redirect()->toRoute('zfcadmin/ZfjPageBanner');
 		
-		$entity = new Navigation();
+		$entity = new PageBanner();
 		
 		$entity->setTitle($menuName);
 		
 		$em->persist($entity);
 		$em->flush();
 		
-		return $this->redirect()->toRoute('zfcadmin/ZfJPageBanner', array(), 
+		return $this->redirect()->toRoute('zfcadmin/ZfjPageBanner', array(), 
 				array(
 					'query' => array(
 						'menu' => $entity->getId()
@@ -118,11 +122,11 @@ class Admin_IndexController extends AbstractActionController
 		$post = $this->params()->fromPost();
 		
 		if ($menuName === null || $menuId === null)
-			return $this->redirect()->toRoute('zfcadmin/ZfJPageBanner');
+			return $this->redirect()->toRoute('zfcadmin/ZfjPageBanner');
 		
-		$repo = $em->getRepository('ZfJPageBanner\Entity\Navigation');
+		$repo = $em->getRepository('ZfjPageBanner\Entity\PageBanner');
 		
-		$menuEntity = $em->find('ZfJPageBanner\Entity\Navigation', $menuId);
+		$menuEntity = $em->find('ZfjPageBanner\Entity\PageBanner', $menuId);
 		
 		$_children = $repo->getChildren($menuEntity);
 		
@@ -165,7 +169,7 @@ class Admin_IndexController extends AbstractActionController
 				$args[$field] = isset($post[$field][$_key]) ? $post[$field][$_key] : '';
 			
 			$item = $children[$args['menu-item-db-id']];
-			$item instanceof Navigation;
+			$item instanceof PageBanner;
 			
 			$item->setTitle($args['menu-item-title']);
 			$item->setTitleAttribute($args['menu-item-attr-title']);
@@ -174,7 +178,7 @@ class Admin_IndexController extends AbstractActionController
 			$item->setTarget((bool) $args['menu-item-target']);
 			$item->setUrl($args['menu-item-url']);
 			
-			$parent = $em->find('ZfJPageBanner\Entity\Navigation', 
+			$parent = $em->find('ZfjPageBanner\Entity\Navigation', 
 					$args['menu-item-parent-id']);
 			$item->setParent($parent);
 			
@@ -196,7 +200,7 @@ class Admin_IndexController extends AbstractActionController
 		}
 		
 		
-		return $this->redirect()->toRoute('zfcadmin/ZfJPageBanner', array(), 
+		return $this->redirect()->toRoute('zfcadmin/ZfjPageBanner', array(), 
 				array(
 					'query' => array(
 						'menu' => $menuEntity->getId()
@@ -210,9 +214,9 @@ class Admin_IndexController extends AbstractActionController
 		$items = $this->params()->fromPost('menu-item', null);
 		$menu = $this->params()->fromPost('menu', null);
 		
-		$menuEntity = $em->find('ZfJPageBanner\Entity\Navigation', $menu);
+		$menuEntity = $em->find('ZfjPageBanner\Entity\PageBanner', $menu);
 		
-		$options = $this->getServiceLocator()->get('ZfJPageBanner\Config');
+		$options = $this->getServiceLocator()->get('ZfjPageBanner\Config');
 		
 		$collectors = $options->getCollectors();
 		try {
@@ -224,14 +228,14 @@ class Admin_IndexController extends AbstractActionController
 					case $collector instanceof AbstractEntityCollector:
 						$entity = $em->find($collector->getEntity(), $item['id']);
 						
-						$entityNavigation = new Navigation();
+						$entityNavigation = new PageBanner();
 						$entityNavigation->setTitle($collector->getTitle($entity));
 						$entityNavigation->setCollector($collector->getName());
 						$entityNavigation->setParent($menuEntity);
 						$entityNavigation->setReferenceId($item['id']);
 						break;
 					case $collector instanceof AbstractCollector:
-						$entityNavigation = new Navigation();
+						$entityNavigation = new PageBanner();
 						$entityNavigation->setTitle($item['menu-item-title']);
 						$entityNavigation->setCollector($collector->getName());
 						$entityNavigation->setParent($menuEntity);
@@ -257,6 +261,11 @@ class Admin_IndexController extends AbstractActionController
 		));
 		$viewModel->setTerminal(true);
 		return $viewModel;
+	}
+	
+	public function saveImageAction() 
+	{
+		return new JsonModel(array());
 	}
 
 	/**
