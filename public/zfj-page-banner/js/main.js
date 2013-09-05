@@ -48,13 +48,63 @@ var widgetInit = function() {
 	
 	jQuery(document).ready(function($) {
 		var positionImageBanner = 0;
+		$('table').on('click', '.handlerRemoveImageBanner', function(e) {
+			e.preventDefault();
+			var image = $(this).closest('tr').data('image');
+			var page = $(this).closest('tr').data('page');
+			 $.ajax({
+   			  url: site_url + '/admin/ZfjPageBanner/removeImage',
+   			  'data': {pageid:page, imageid:image},
+   			  dataType:'json'
+   			});
+			
+			$(this).closest('tr').fadeOut('slow', function() {
+				$(this).remove();
+			});
+		});
 		
-		$( ".table-striped:eq(0)" ).sortable({
-		      items:'tbody > tr',
+		$('table').on('click', '.handlerIconImageBanner', function(e) {
+			e.preventDefault();
+			$(this).closest('td').find('button').removeClass('active');
+			$(this).addClass('active');
+			var image = $(this).closest('tr').data('image');
+			 $.ajax({
+	   			  url: site_url + '/admin/ZfjPageBanner/typeImage',
+	   			  'data': {type:2, imageid:image},
+	   			  dataType:'json'
+	   			});
+		});
+		
+		$('table').on('click', '.handlerIconMedImageBanner', function(e) {
+			e.preventDefault();
+			$(this).closest('td').find('button').removeClass('active');
+			$(this).addClass('active');
+			var image = $(this).closest('tr').data('image');
+			 $.ajax({
+	   			  url: site_url + '/admin/ZfjPageBanner/typeImage',
+	   			  'data': {type:3, imageid:image},
+	   			  dataType:'json'
+	   			});
+		});
+		
+		$('table').on('click', '.handlerPageImageBanner', function(e) {
+			e.preventDefault();
+			$(this).closest('td').find('button').removeClass('active');
+			$(this).addClass('active');
+			var image = $(this).closest('tr').data('image');
+			$.ajax({
+	   			  url: site_url + '/admin/ZfjPageBanner/typeImage',
+	   			  'data': {type:1, imageid:image},
+	   			  dataType:'json'
+	   			});
+		});
+		
+		$( ".menu-item-settings .table-striped" ).sortable({
+		      items:'tbody > tr:not(.ui-state-disabled)',
 		      revert:'invalid',
 		      stop: function(e, ui){
-		    	  $('.emptyContainer').fadeOut(function() {$(this).remove();});
-		    	  if( ui.item.find('td').length == 4) {
+		    	  //$('.emptyContainer').closest('tr').fadeOut(function() {});
+		    	  if( ui.item.find('td:eq(2)').html() != '') {
 		    		  var parts = ui.item.closest('li').attr('id').split('-');
 		    		  var idPage = parts[parts.length-1];
 		    		  
@@ -66,39 +116,33 @@ var widgetInit = function() {
 		    		  
 		    		  $.ajax({
 		    			  url: site_url + '/admin/ZfjPageBanner/saveImage',
-		    			  'data': {pageid:idPage, imageid:idImage}
-		    			}).done(function() {
-		    			  $(this).addClass("done");
+		    			  'data': {pageid:idPage, imageid:idImage},
+		    			  dataType:'json'
+		    			}).success(function(data) {
+		    				$.data(ui.item, 'image', data.image);
+		    				$.data(ui.item, 'page', idPage);
 		    			});
 		    		  
-		    		  var buttonRemove = $('<button>', {'html':'<i class="glyphicon glyphicon-trash"></i>', 'class': 'btn btn-danger '}).click(function(e) {
-		    				e.preventDefault();
-		    				$(this).closest('tr').fadeOut('slow', function() {
-		    					$(this).remove();
-		    				});
-		    			});
+		    		    var buttonRemove = $('<button>', {'html':'<i class="glyphicon glyphicon-trash"></i>', 'class': 'handlerRemoveImageBanner btn btn-danger btn-xs '});
 		    			
-		    			var buttonIcon = $('<button>', {'html':'<i class="glyphicon glyphicon-info-sign"></i>', 'class': 'btn btn-info '}).click(function(e) {
-		    				e.preventDefault();
-		    			});
-		    			var buttonPage = $('<button>', {'html':'<i class="glyphicon glyphicon-file"></i>', 'class': 'btn btn-info '}).click(function(e) {
-		    				e.preventDefault();
-		    			});
-		    		  ui.item.find('td:eq(2)').remove();
-			    	  ui.item.find('td:eq(2)').html('').append(buttonIcon).append(buttonPage).append(buttonRemove);
+		    			var buttonIcon = $('<button>', {'html':'<i class="glyphicon glyphicon-info-sign"></i>', 'class': 'handlerIconImageBanner btn btn-info btn-xs '});
+		    			var buttonIconMed = $('<button>', {'html':'<i class="glyphicon glyphicon-info-sign"></i>', 'class': 'handlerIconMedImageBanner btn btn-info btn-sm'});
+		    			var buttonPage = $('<button>', {'html':'<i class="glyphicon glyphicon-file"></i>', 'class': 'handlerPageImageBanner btn btn-info btn-xs '});
+		    		  ui.item.find('td:eq(2)').html('');
+			    	  ui.item.find('td:eq(3)').html('').append(buttonIcon).append(buttonIconMed).append(buttonPage).append(buttonRemove);
 		    	  }
 		    	  
 	    	    }
 		    }).disableSelection();
 		
 		setTimeout(function() {
-			$( ".table-striped:eq(1) tbody tr" ).draggable({
-			      connectToSortable: ".table-striped:eq(0)",
+			$( "#zfj_banner_page_uploader .table-striped tbody tr" ).draggable({
+			      connectToSortable: ".menu-item-settings .table-striped",
 			      helper: "clone",
 			      revert:'invalid'
 			    });
-			$( ".table-striped:eq(0)" ).sortable( "refresh" );
-		}, 3000);
+			$( ".menu-item-settings .table-striped" ).sortable( "refresh" );
+		}, 1000);
 		
 //		$( "#menu-to-edit" ).sortable();
 //		

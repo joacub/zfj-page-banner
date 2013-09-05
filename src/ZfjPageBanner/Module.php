@@ -7,6 +7,7 @@ use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Nette\Diagnostics\Debugger;
 use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 use ZfjPageBanner\View\Helper\Navigation;
+use ZfjPageBanner\View\Helper\PageBanner;
 
 class Module implements
     ConfigProviderInterface,
@@ -98,8 +99,12 @@ class Module implements
     {
     	return array(
     		'factories' => array(
-    			'ZfjPageBanner' => function($sm, $s) {
-    				$navigation = new Navigation();
+    			'zfjPageBanner' => function($sm) {
+    				try {
+    				$navigation = new PageBanner($sm);
+    				} catch(\Exception $e) {
+    					echo $e->getMessage();exit;
+    				}
     				return $navigation;
     			}
     		)

@@ -3,10 +3,11 @@ namespace ZfjPageBanner\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Gedmo\Tree(type="nested")
- * @ORM\Table(name="zfj_page_banner")
+ * @ORM\Table(name="zfj_page_banner_images")
  * use repository for handy tree functions
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
  */
@@ -20,36 +21,22 @@ class Images
     protected $id;
 
     /**
-     * @ORM\Column(name="title", type="string", length=64)
+     * @ORM\ManyToOne(targetEntity="FileBank\Entity\File")
+     * @var ArrayCollection
      */
-    protected $title;
+    protected $image;
     
     /**
-     * @ORM\Column(name="titleAttribute", type="string", length=64, nullable=true)
+     * @ORM\ManyToOne(targetEntity="ZfjPageBanner\Entity\PageBanner", inversedBy="images")
      */
-    protected $titleAttribute;
-    
-    /**
-     * @ORM\Column(name="target", type="boolean")
-     */
-    protected $target = false;
-    
-    /**
-     * @ORM\Column(name="css", type="string", nullable=true)
-     */
-    protected $css;
-    
-    /**
-     * @ORM\Column(name="description", type="string", nullable=true)
-     */
-    protected $description;
+    protected $page;
     
     /**
      * 
-     * @ORM\Column(name="url", type="string", nullable=true)
+     * @ORM\Column(type="smallint", nullable=true)
      */
-    protected $url;
-
+    protected $type;
+    
     /**
      * @Gedmo\TreeLeft
      * @ORM\Column(name="lft", type="integer")
@@ -87,112 +74,11 @@ class Images
      */
     protected $children;
     
-    /**
-     * 
-     * @ORM\Column(name="collector", type="string", nullable=true)
-     */
-    protected $collector;
-    
-    /**
-     * 
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    protected $referenceId;
-    
     public function getId()
     {
         return $this->id;
     }
 
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    public function getTitle()
-    {
-        return $this->title;
-    }
-    
-    /**
-     * @return the $titleAttribute
-     */
-    public function getTitleAttribute ()
-    {
-    	return $this->titleAttribute;
-    }
-    
-    /**
-     * @param field_type $titleAttribute
-     */
-    public function setTitleAttribute ($titleAttribute)
-    {
-    	$this->titleAttribute = $titleAttribute;
-    }
-    
-    /**
-     * @return the $target
-     */
-    public function getTarget ()
-    {
-    	return $this->target;
-    }
-    
-    /**
-     * @param field_type $target
-     */
-    public function setTarget ($target)
-    {
-    	$this->target = $target;
-    }
-    
-    /**
-     * @return the $css
-     */
-    public function getCss ()
-    {
-    	return $this->css;
-    }
-    
-    /**
-     * @param field_type $css
-     */
-    public function setCss ($css)
-    {
-    	$this->css = $css;
-    }
-    
-    /**
-     * @return the $description
-     */
-    public function getDescription ()
-    {
-    	return $this->description;
-    }
-    
-    /**
-     * @param field_type $description
-     */
-    public function setDescription ($description)
-    {
-    	$this->description = $description;
-    }
-    
-    /**
-     * @return the $url
-     */
-    public function getUrl ()
-    {
-    	return $this->url;
-    }
-    
-    /**
-     * @param field_type $url
-     */
-    public function setUrl ($url)
-    {
-    	$this->url = $url;
-    }
     
     public function getLevel()
     {
@@ -233,6 +119,54 @@ class Images
 	{
 		$this->referenceId = $referenceId;
 	}
+	/**
+	 * @return the $image
+	 */
+	public function getImage ()
+	{
+		return $this->image;
+	}
+
+	/**
+	 * @param \Doctrine\Common\Collections\ArrayCollection $image
+	 */
+	public function setImage ($image)
+	{
+		$this->image = $image;
+	}
+
+	/**
+	 * @return the $page
+	 */
+	public function getPage ()
+	{
+		return $this->page;
+	}
+
+	/**
+	 * @param field_type $page
+	 */
+	public function setPage ($page)
+	{
+		$this->page = $page;
+	}
+	/**
+	 * @return the $type
+	 */
+	public function getType ()
+	{
+		return $this->type;
+	}
+
+	/**
+	 * @param field_type $type
+	 */
+	public function setType ($type)
+	{
+		$this->type = $type;
+	}
+
+
 
 
 }

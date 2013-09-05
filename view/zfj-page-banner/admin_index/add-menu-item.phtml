@@ -3,115 +3,191 @@ use ZfJPageBanner\Collector\AbstractEntityCollector;
 use ZfJPageBanner\Collector\AbstractCollector;
 foreach($this->menuItems as $item): ?>
 
-<li id="menu-item-<?php echo $item['data']->getId() ?>" class="menu-item menu-item-depth-<?php echo ($item['data']->getLevel() - 1); ?> menu-item-page menu-item-edit-inactive pending">
+<li id="menu-item-<?php echo $item['data']->getId() ?>"
+	class="menu-item menu-item-depth-<?php echo ($item['data']->getLevel() - 1); ?> menu-item-page menu-item-edit-inactive pending">
 
-<div id="jc-navigation-db-template" class="box gradient">
-					<div class="title menu-item-handle">
+	<div id="jc-navigation-db-template" class="box gradient">
+		<div class="title menu-item-handle">
 
-						<h4>
-							<span><?php echo $item['data']->getTitle(); ?></span>
-						</h4>
-						<a style="display: none;" href="#" class="maximize">Maximize</a>
-					</div>
-					
-				<div class="content menu-item-settings" style="padding-bottom: 0px; display: none;">
+			<h4>
+				<span><?php echo $item['data']->getTitle(); ?></span>
+			</h4>
+			<a style="display: none;" href="#" class="maximize">Maximize</a>
+		</div>
+
+		<div class="content menu-item-settings"
+			style="padding-bottom: 0px; display: none;">
 				<?php if($item['collector'] instanceof AbstractCollector): ?>
 				<p class="field-url description description-wide">
-						<label for="edit-menu-item-url-<?php echo $item['data']->getId() ?>">
-							URL<br>
-							<input type="text" value="<?php echo $item['data']->getUrl() ?>" original-value="<?php echo $item['data']->getUrl(); ?>" name="menu-item-url[<?php echo $item['data']->getId() ?>]" class="widefat code edit-menu-item-url" id="edit-menu-item-url-<?php echo $item['data']->getId() ?>">
-						</label>
-					</p>
+				<label for="edit-menu-item-url-<?php echo $item['data']->getId() ?>">
+					URL<br> <input type="text"
+					value="<?php echo $item['data']->getUrl() ?>"
+					original-value="<?php echo $item['data']->getUrl(); ?>"
+					name="menu-item-url[<?php echo $item['data']->getId() ?>]"
+					class="widefat code edit-menu-item-url"
+					id="edit-menu-item-url-<?php echo $item['data']->getId() ?>">
+				</label>
+			</p>
 				<?php endif; ?>
 								<p class="description description-thin">
-					<label for="edit-menu-item-title-<?php echo $item['data']->getId() ?>">
-						Etiqueta de navegación<br>
-						<input type="text" value="<?php echo $item['data']->getTitle(); ?>" original-value="<?php echo $item['data']->getTitle(); ?>" name="menu-item-title[<?php echo $item['data']->getId() ?>]" class="widefat edit-menu-item-title" id="edit-menu-item-title-<?php echo $item['data']->getId() ?>">
-					</label>
-				</p>
-				<p class="description description-thin">
-					<label for="edit-menu-item-attr-title-<?php echo $item['data']->getId() ?>">
-						Atributos del título<br>
-						<input type="text" value="<?php echo $item['data']->getTitleAttribute() ?>" original-value="" name="menu-item-attr-title[<?php echo $item['data']->getId() ?>]" class="widefat edit-menu-item-attr-title" id="edit-menu-item-attr-title-<?php echo $item['data']->getId() ?>">
-					</label>
-				</p>
-				<p class="field-link-target description hidden-field">
-					<label for="edit-menu-item-target-<?php echo $item['data']->getId() ?>">
-						<input type="checkbox" <?php echo $item['data']->getTarget() ? 'checked="checked"' : '' ?> name="menu-item-target[<?php echo $item['data']->getId() ?>]" original-value="false" value="_blank" id="edit-menu-item-target-<?php echo $item['data']->getId() ?>">
-						Abrir enlace en una nueva ventana/pestaña					</label>
-				</p>
-				<p class="field-css-classes description description-thin hidden-field">
-					<label for="edit-menu-item-classes-<?php echo $item['data']->getId() ?>">
-						Clases CSS (opcional)<br>
-						<input type="text" value="<?php echo $item['data']->getCss() ?>" name="menu-item-classes[<?php echo $item['data']->getId() ?>]" class="widefat code edit-menu-item-classes" id="edit-menu-item-classes-<?php echo $item['data']->getId() ?>">
-					</label>
-				</p>
-				<p class="field-xfn description description-thin hidden-field">
-					<label for="edit-menu-item-xfn-<?php echo $item['data']->getId() ?>">
-						Relación con el enlace (XFN)<br>
-						<input type="text" value="" name="menu-item-xfn[<?php echo $item['data']->getId() ?>]" class="widefat code edit-menu-item-xfn" id="edit-menu-item-xfn-<?php echo $item['data']->getId() ?>">
-					</label>
-				</p>
-				<p class="field-description description description-wide hidden-field">
-					<label for="edit-menu-item-description-<?php echo $item['data']->getId() ?>">
-						Descripción<br>
-						<textarea name="menu-item-description[<?php echo $item['data']->getId() ?>]" cols="20" rows="3" class="widefat edit-menu-item-description" id="edit-menu-item-description-<?php echo $item['data']->getId() ?>"><?php echo $item['data']->getDescription() ?></textarea>
-						<span class="description">La descripción se mostrará en los menús si el tema actual lo soporta.</span>
-					</label>
-				</p>
+				<label
+					for="edit-menu-item-title-<?php echo $item['data']->getId() ?>">
+					Etiqueta de navegación<br> <input type="text"
+					value="<?php echo $item['data']->getTitle(); ?>"
+					original-value="<?php echo $item['data']->getTitle(); ?>"
+					name="menu-item-title[<?php echo $item['data']->getId() ?>]"
+					class="widefat edit-menu-item-title"
+					id="edit-menu-item-title-<?php echo $item['data']->getId() ?>">
+				</label>
+			</p>
+			<p class="description description-thin">
+				<label
+					for="edit-menu-item-attr-title-<?php echo $item['data']->getId() ?>">
+					Atributos del título<br> <input type="text"
+					value="<?php echo $item['data']->getTitleAttribute() ?>"
+					original-value=""
+					name="menu-item-attr-title[<?php echo $item['data']->getId() ?>]"
+					class="widefat edit-menu-item-attr-title"
+					id="edit-menu-item-attr-title-<?php echo $item['data']->getId() ?>">
+				</label>
+			</p>
+			<p class="field-link-target description hidden-field">
+				<label
+					for="edit-menu-item-target-<?php echo $item['data']->getId() ?>"> <input
+					type="checkbox"
+					<?php echo $item['data']->getTarget() ? 'checked="checked"' : '' ?>
+					name="menu-item-target[<?php echo $item['data']->getId() ?>]"
+					original-value="false" value="_blank"
+					id="edit-menu-item-target-<?php echo $item['data']->getId() ?>">
+					Abrir enlace en una nueva ventana/pestaña
+				</label>
+			</p>
+			<p
+				class="field-css-classes description description-thin hidden-field">
+				<label
+					for="edit-menu-item-classes-<?php echo $item['data']->getId() ?>">
+					Clases CSS (opcional)<br> <input type="text"
+					value="<?php echo $item['data']->getCss() ?>"
+					name="menu-item-classes[<?php echo $item['data']->getId() ?>]"
+					class="widefat code edit-menu-item-classes"
+					id="edit-menu-item-classes-<?php echo $item['data']->getId() ?>">
+				</label>
+			</p>
+			<p class="field-xfn description description-thin hidden-field">
+				<label for="edit-menu-item-xfn-<?php echo $item['data']->getId() ?>">
+					Relación con el enlace (XFN)<br> <input type="text" value=""
+					name="menu-item-xfn[<?php echo $item['data']->getId() ?>]"
+					class="widefat code edit-menu-item-xfn"
+					id="edit-menu-item-xfn-<?php echo $item['data']->getId() ?>">
+				</label>
+			</p>
+			<p
+				class="field-description description description-wide hidden-field">
+				<label
+					for="edit-menu-item-description-<?php echo $item['data']->getId() ?>">
+					Descripción<br> <textarea
+						name="menu-item-description[<?php echo $item['data']->getId() ?>]"
+						cols="20" rows="3" class="widefat edit-menu-item-description"
+						id="edit-menu-item-description-<?php echo $item['data']->getId() ?>"><?php echo $item['data']->getDescription() ?></textarea>
+					<span class="description">La descripción se mostrará en los menús
+						si el tema actual lo soporta.</span>
+				</label>
+			</p>
 
-				<div class="menu-item-actions description-wide submitbox">
+			<div class="menu-item-actions description-wide submitbox">
 				<?php if($item['collector'] instanceof AbstractEntityCollector): ?>
 							<p class="link-to-original">
-							Original: <a href="<?php echo $this->url($item['collector']->getRouter(), $item['collector']->getRouterParams($item['entity'])) ?>"><?php echo $item['collector']->getTitle($item['entity']); ?></a>						
-							</p>
+					Original: <a
+						href="<?php echo $this->url($item['collector']->getRouter(), $item['collector']->getRouterParams($item['entity'])) ?>"><?php echo $item['collector']->getTitle($item['entity']); ?></a>
+				</p>
 				<?php endif; ?>
-										<a href="#" id="delete-<?php echo $item['data']->getId() ?>" class="item-delete submitdelete deletion">Eliminar</a> <span class="meta-sep"> | </span> <a href="#menu-item-settings-<?php echo $item['data']->getId() ?>" id="cancel-<?php echo $item['data']->getId() ?>" class="item-cancel submitcancel">Cancelar</a>
-				</div>
-
-				<input type="hidden" value="<?php echo $item['data']->getId() ?>" name="menu-item-db-id[<?php echo $item['data']->getId() ?>]" class="menu-item-data-db-id">
-				<input type="hidden" value="<?php echo $item['entity'] ? $item['entity']->getId() : '' ?>" name="menu-item-object-id[<?php echo $item['data']->getId() ?>]" class="menu-item-data-object-id">
-				<input type="hidden" value="<?php echo $item['data']->getParent() ? $item['data']->getParent()->getId() : 0 ?>" name="menu-item-parent-id[<?php echo $item['data']->getId() ?>]" class="menu-item-data-parent-id">
-				<input type="hidden" value="<?php echo $item['data']->getLevel() ?>" name="menu-item-position[<?php echo $item['data']->getId() ?>]" class="menu-item-data-position">
-				<input type="hidden" value="<?php echo $item['collector']->getName() ?>" name="menu-item-collector[<?php echo $item['data']->getId() ?>]" class="menu-item-data-type">
-				
-				<table class="table table-striped helperPageHeaderDrop" role="presentation">
-					<tbody class="files">
-					</tbody>
-					
-				</table>
-				<div class="emptyContainer">Arrastra aqui las imagenes</div>
-				
-				</div>
+										<a href="#" id="delete-<?php echo $item['data']->getId() ?>"
+					class="item-delete submitdelete deletion">Eliminar</a> <span
+					class="meta-sep"> | </span> <a
+					href="#menu-item-settings-<?php echo $item['data']->getId() ?>"
+					id="cancel-<?php echo $item['data']->getId() ?>"
+					class="item-cancel submitcancel">Cancelar</a>
 			</div>
-			
-			<ul class="menu-item-transport"></ul>
-			</li>
-			
-			<style>
 
-			.helperPageHeaderDrop > tbody > tr > td {
-					background-color: #dcdcdc;
-			}
+			<input type="hidden" value="<?php echo $item['data']->getId() ?>"
+				name="menu-item-db-id[<?php echo $item['data']->getId() ?>]"
+				class="menu-item-data-db-id"> <input type="hidden"
+				value="<?php echo $item['entity'] ? $item['entity']->getId() : '' ?>"
+				name="menu-item-object-id[<?php echo $item['data']->getId() ?>]"
+				class="menu-item-data-object-id"> <input type="hidden"
+				value="<?php echo $item['data']->getParent() ? $item['data']->getParent()->getId() : 0 ?>"
+				name="menu-item-parent-id[<?php echo $item['data']->getId() ?>]"
+				class="menu-item-data-parent-id"> <input type="hidden"
+				value="<?php echo $item['data']->getLevel() ?>"
+				name="menu-item-position[<?php echo $item['data']->getId() ?>]"
+				class="menu-item-data-position"> <input type="hidden"
+				value="<?php echo $item['collector']->getName() ?>"
+				name="menu-item-collector[<?php echo $item['data']->getId() ?>]"
+				class="menu-item-data-type">
+			<div class="container-images">
+				<table class="table table-striped helperPageHeaderDrop"
+					role="presentation">
+					<tbody class="files">
+						<tr class="ui-state-disabled">
+							<td colspan="4"><div class="emptyContainer">Arrastra aqui las
+									imagenes</div></td>
+						</tr>
+					<?php
+	$fileBank = $this->fileBank();
+	
+	$images = $item['data']->getImages();
+	if ($images)
+		foreach ($images as $image) {
+			$imageFile = $fileBank->generateDynamicParameters(
+					$image->getImage());
+			?>
+						<tr class="template-download fade in ui-draggable"
+							data-image="<?php echo $image->getId() ?>"
+							style="display: table-row;">
+							<td><span class="preview"> <a
+									href="<?php echo $imageFile->getUrl() ?>"
+									title="<?php echo $imageFile->getName()?>"
+									download="<?php echo $imageFile->getName()?>"
+									data-gallery="#zfj_banner_page_uploader-gallery"><img
+										src="<?php echo $imageFile->getUrl()?>"></a>
+							</span></td>
+							<td>
+								<p class="name">
+									<a href="<?php echo $imageFile->getUrl()?>"
+										title="<?php echo $imageFile->getName()?>"
+										download="<?php echo $imageFile->getName()?>"
+										data-gallery="#zfj_banner_page_uploader-gallery"><?php echo $imageFile->getName()?></a>
+								</p>
+							</td>
+							<td></td>
+							<td><button
+									class="handlerIconImageBanner btn btn-info btn-xs <?php echo $image->getType() == 2 ? 'active' : ''?> ">
+									<i class="glyphicon glyphicon-info-sign"></i>
+								</button>
+								<button
+									class="handlerIconMedImageBanner btn btn-info  btn-sm <?php echo $image->getType() == 3 ? 'active' : ''?> ">
+									<i class="glyphicon glyphicon-info-sign"></i>
+								</button>
+								<button
+									class="handlerPageImageBanner btn btn-info  btn-xs <?php echo $image->getType() == 1 ? 'active' : ''?>">
+									<i class="glyphicon glyphicon-file"></i>
+								</button>
+								<button class="handlerRemoveImageBanner btn btn-danger  btn-xs">
+									<i class="glyphicon glyphicon-trash"></i>
+								</button></td>
+						</tr>
+						<?php 
+					}
+					?>
+					</tbody>
 
-			.helperPageHeaderDrop {
-				float:left;
-				margin-top:20px;
-				height: 50px;
-			}
-			
-			.helperPageHeaderDrop tr {
-				position: relative;
-				z-index: 9;
-			}
-			.emptyContainer {
-				float:left;margin-top:-80px;padding: 15px;text-align: center;
-				width:100%;
-				border: 3px dashed #dcdcdc;
-			}
-			
-			.helperPageHeaderDrop button {
-				margin-left: 3px;
-			}
-			</style>
-			<?php endforeach; ?>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+	<ul class="menu-item-transport"></ul>
+</li>
+
+<?php endforeach; ?>

@@ -11,6 +11,10 @@ use ZfjPageBanner\Collector\AbstractEntityCollector;
 use ZfjPageBanner\Collector\AbstractCollector;
 use ZfjPageBanner\Entity\PageBanner;
 use Zend\View\Model\JsonModel;
+use ZfjPageBanner\Entity\Images;
+use Zend\Uri\Http;
+use Zend\Http\Request;
+use ZfjPageBanner\Options;
 
 class Admin_IndexController extends AbstractActionController
 {
@@ -219,6 +223,9 @@ class Admin_IndexController extends AbstractActionController
 		$options = $this->getServiceLocator()->get('ZfjPageBanner\Config');
 		
 		$collectors = $options->getCollectors();
+		
+		$router = $this->getServiceLocator()->get('router');
+		
 		try {
 			foreach ($items as &$item) {
 				$collector = $this->getServiceLocator()->get(
@@ -239,6 +246,20 @@ class Admin_IndexController extends AbstractActionController
 						$entityNavigation->setTitle($item['menu-item-title']);
 						$entityNavigation->setCollector($collector->getName());
 						$entityNavigation->setParent($menuEntity);
+						
+						$uri = new Http($item['menu-item-url']);
+						$request = new Request();
+						$request->setUri($uri);
+						$match = $router->match($request);
+						
+						$options = $this->getServiceLocator()->get('ZfjPageBanner\Config');
+						$options instanceof Options;
+						
+						$optionsRouter = $options->getRouter($match->getMatchedRouteName());
+						
+						$repo = $em->getRepository($optionsRouter['entity']);
+						$entity = $repo->findOneBy(array($optionsRouter['identifier-db'] => $match->getParam($optionsRouter['identifier-param'])));
+						$entityNavigation->setReferenceId($entity->getId());
 						$entityNavigation->setUrl($item['menu-item-url']);
 						break;
 				}
@@ -265,7 +286,47 @@ class Admin_IndexController extends AbstractActionController
 	
 	public function saveImageAction() 
 	{
-		return new JsonModel(array());
+		$image = $this->params()->fromQuery('imageid');
+		$page = $this->params()->fromQuery('pageid');
+		$page = $this->getEntityManager()->find('ZfjPageBanner\Entity\PageBanner', $page);
+		$image = $this->getEntityManager()->find('FileBank\Entity\File', $image);
+		
+		$entity = new Images();
+		$entity->setImage($image);
+		$entity->setPage($page);
+		
+		$this->getEntityManager()->persist($entity);
+		$this->getEntityManager()->flush($entity);
+		
+		return new JsonModel(array('image' => $entity->getId()));
+	}
+	
+	public function removeImageAction()
+	{
+		$image = $this->params()->fromQuery('imageid');
+		$image = $this->getEntityManager()->find('ZfjPageBanner\Entity\Images', $image);
+		
+		if($image) {
+			$this->getEntityManager()->remove($image);
+			$this->getEntityManager()->flush($image);
+		}
+	
+		return new JsonModel(array('result' => true));
+	}
+	
+	public function typeImageAction()
+	{
+		$image = $this->params()->fromQuery('imageid');
+		$image = $this->getEntityManager()->find('ZfjPageBanner\Entity\Images', $image);
+		
+		$image->setType($this->params()->fromQuery('type'));
+	
+		if($image) {
+			$this->getEntityManager()->persist($image);
+			$this->getEntityManager()->flush($image);
+		}
+	
+		return new JsonModel(array('result' => true));
 	}
 
 	/**

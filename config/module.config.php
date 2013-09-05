@@ -88,7 +88,7 @@ return array(
 			'zfj_banner_page_uploader' => array(
 				'max_number_of_files' => 10,
 				'maxNumberOfFiles' => 10,
-				'dropZone' => new  Expr('$(\'#tranvia_import_workable\')'),
+				'dropZone' => new  Expr('$(\'#zfj_banner_page_uploader\')'),
 				'acceptFileTypes' => new Expr('/(\.|\/)(jpg|jpeg|png|gif)$/i'),
 				'maxFileSize' => 100000000,
 				'keywords' => array(

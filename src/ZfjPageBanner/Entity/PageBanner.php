@@ -49,6 +49,11 @@ class PageBanner
      * @ORM\Column(name="url", type="string", nullable=true)
      */
     protected $url;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="ZfjPageBanner\Entity\Images", mappedBy="page")
+     */
+    protected $images;
 
     /**
      * @Gedmo\TreeLeft
@@ -92,6 +97,12 @@ class PageBanner
      * @ORM\Column(name="collector", type="string", nullable=true)
      */
     protected $collector;
+    
+    /**
+     * 
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $entity;
     
     /**
      * 
@@ -233,6 +244,38 @@ class PageBanner
 	{
 		$this->referenceId = $referenceId;
 	}
+	/**
+	 * @return the $images
+	 */
+	public function getImages ()
+	{
+		return $this->images;
+	}
+
+	/**
+	 * @param field_type $images
+	 */
+	public function setImages ($images)
+	{
+		$this->images = $images;
+	}
+	/**
+	 * @return the $entity
+	 */
+	public function getEntity ()
+	{
+		return $this->entity;
+	}
+
+	/**
+	 * @param field_type $entity
+	 */
+	public function setEntity ($entity)
+	{
+		$this->entity = $entity;
+	}
+
+
 
 
 }

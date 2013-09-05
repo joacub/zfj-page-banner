@@ -18,6 +18,8 @@ class Options extends AbstractOptions
      * @var ReportInterface
      */
     protected $report;
+    
+    protected $routers = array();
 
     /**
      * @var array
@@ -82,6 +84,10 @@ class Options extends AbstractOptions
         }
         if (isset($options['collectors'])) {
             $this->setCollectors($options['collectors']);
+        }
+        
+        if (isset($options['routers'])) {
+        	$this->setRouters($options['routers']);
         }
     }
 
@@ -279,6 +285,23 @@ class Options extends AbstractOptions
     public function getToolbarEntries()
     {
         return $this->toolbar['entries'];
+    }
+    
+    public function setRouters($routers) 
+    {
+    	$this->routers = $routers;
+    }
+    
+    public function getRouters() 
+    {
+    	return $this->routers;
+    }
+    
+    public function getRouter($router)
+    {
+    	if(!isset($this->routers[$router])) 
+    		return null;
+    	return $this->routers[$router];
     }
 
     // todo: storage and firephp options.
