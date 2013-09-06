@@ -46,7 +46,6 @@ class PageBanner extends AbstractHelper
 		$result = $repo->findOneBy(array($optionsRouter['identifier-db'] => $params[$optionsRouter['identifier-param']]));
 		
 		return $pageBannerRepo->findOneBy(array('entity' => $optionsRouter['entity'], 'referenceId' => $result->getId()));
-		
 	}
 	
 	public function getByUrl($url, $params)

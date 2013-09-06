@@ -259,6 +259,8 @@ class Admin_IndexController extends AbstractActionController
 						
 						$repo = $em->getRepository($optionsRouter['entity']);
 						$entity = $repo->findOneBy(array($optionsRouter['identifier-db'] => $match->getParam($optionsRouter['identifier-param'])));
+						
+						$entityNavigation->setEntity($optionsRouter['entity']);
 						$entityNavigation->setReferenceId($entity->getId());
 						$entityNavigation->setUrl($item['menu-item-url']);
 						break;
