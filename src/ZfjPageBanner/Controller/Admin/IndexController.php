@@ -256,7 +256,12 @@ class Admin_IndexController extends AbstractActionController
 						$options instanceof Options;
 						
 						$optionsRouter = $options->getRouter($match->getMatchedRouteName());
-						
+						/**
+						 * @todo Con los configs que no existan se podrian meter por defecto
+						 * hace falta meter mas programacion pensando estrategia todabia... 
+						 */
+						if(!$optionsRouter)
+							continue;
 						$repo = $em->getRepository($optionsRouter['entity']);
 						$entity = $repo->findOneBy(array($optionsRouter['identifier-db'] => $match->getParam($optionsRouter['identifier-param'])));
 						

@@ -19,6 +19,8 @@ $recursiveHydrator = function($entity) use(&$recursiveHydrator, $sm, $em, $repo,
 	
 	if(count($children)) {
 		foreach($children as $child) {
+			if($entity->getId() == $child->getId()) 
+				continue;
 			$collector = $sm->get($collectors[$child->getCollector()]);
 			$originalEntity = false;
 			if($collector instanceof AbstractEntityCollector) {
@@ -95,11 +97,11 @@ $recursiveHydrator = function($entity) use(&$recursiveHydrator, $sm, $em, $repo,
 								<br class="clear">
 								
 								<div class="publishing-action">
-									<button class="btn btn-primary menu-save" id="save_menu_header" name="save_menu">Guardar menú</button>						
+									<button class="btn btn-primary menu-save" id="save_menu_header" name="save_menu">Guardar carpeta</button>						
 								</div>
 
 								<div class="delete-action">
-									<a href="#" class="submitdelete deletion menu-delete">Eliminar menú</a>
+									<a href="#" class="submitdelete deletion menu-delete">Eliminar carpeta</a>
 								</div>
 								<?php endif; ?>
 															</div><!-- END .major-publishing-actions -->
