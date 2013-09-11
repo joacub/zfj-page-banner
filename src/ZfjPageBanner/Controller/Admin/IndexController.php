@@ -15,6 +15,7 @@ use ZfjPageBanner\Entity\Images;
 use Zend\Uri\Http;
 use Zend\Http\Request;
 use ZfjPageBanner\Options;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class Admin_IndexController extends AbstractActionController
 {
@@ -182,7 +183,7 @@ class Admin_IndexController extends AbstractActionController
 			$item->setTarget((bool) $args['menu-item-target']);
 			$item->setUrl($args['menu-item-url']);
 			
-			$parent = $em->find('ZfjPageBanner\Entity\Navigation', 
+			$parent = $em->find('ZfjPageBanner\Entity\PageBanner', 
 					$args['menu-item-parent-id']);
 			$item->setParent($parent);
 			
@@ -199,8 +200,10 @@ class Admin_IndexController extends AbstractActionController
 		$em->flush();
 		
 		foreach ($children as $child) {
-			$repo->removeFromTree($child);
-			$em->clear(); // clear cached nodes
+			$child instanceof PageBanner;
+			$em->remove($child);
+			$em->flush($child); // clear cached nodes
+			
 		}
 		
 		
@@ -260,14 +263,21 @@ class Admin_IndexController extends AbstractActionController
 						 * @todo Con los configs que no existan se podrian meter por defecto
 						 * hace falta meter mas programacion pensando estrategia todabia... 
 						 */
-						if(!$optionsRouter)
-							continue;
-						$repo = $em->getRepository($optionsRouter['entity']);
-						$entity = $repo->findOneBy(array($optionsRouter['identifier-db'] => $match->getParam($optionsRouter['identifier-param'])));
+						if(!$optionsRouter) {
+							$entityNavigation->setUrl($item['menu-item-url']);
+							$params = $match->getParams();
+							$params['route'] = $match->getMatchedRouteName();
+							$params['query'] = $uri->getQueryAsArray();
+							$entityNavigation->setParams($params);
+						} else {
+							$repo = $em->getRepository($optionsRouter['entity']);
+							$entity = $repo->findOneBy(array($optionsRouter['identifier-db'] => $match->getParam($optionsRouter['identifier-param'])));
+							
+							$entityNavigation->setEntity($optionsRouter['entity']);
+							$entityNavigation->setReferenceId($entity->getId());
+							$entityNavigation->setUrl($item['menu-item-url']);
+						}
 						
-						$entityNavigation->setEntity($optionsRouter['entity']);
-						$entityNavigation->setReferenceId($entity->getId());
-						$entityNavigation->setUrl($item['menu-item-url']);
 						break;
 				}
 				

@@ -715,8 +715,52 @@ var widgetInit = function() {
 					processMethod(menuMarkup, params);
 					if( ! ins.hasClass('menu-instructions-inactive') && ins.siblings().length )
 						ins.addClass('menu-instructions-inactive');
+					
 					callback();
 					widgetInit();
+					
+					$( ".menu-item-settings .table-striped" ).sortable({
+					      items:'tbody > tr:not(.ui-state-disabled)',
+					      revert:'invalid',
+					      stop: function(e, ui){
+					    	  //$('.emptyContainer').closest('tr').fadeOut(function() {});
+					    	  if( ui.item.find('td:eq(2)').html() != '') {
+					    		  var parts = ui.item.closest('li').attr('id').split('-');
+					    		  var idPage = parts[parts.length-1];
+					    		  
+					    		  var partsImage = ui.item.find('.preview img').attr('src').split('/');
+					    		  partsImage = partsImage[partsImage.length-1];
+					    		  partsImage =  partsImage.split('-');
+					    		  
+					    		  var idImage = partsImage[0];
+					    		  
+					    		  $.ajax({
+					    			  url: site_url + '/admin/ZfjPageBanner/saveImage',
+					    			  'data': {pageid:idPage, imageid:idImage},
+					    			  dataType:'json'
+					    			}).success(function(data) {
+					    				$.data(ui.item, 'image', data.image);
+					    				$.data(ui.item, 'page', idPage);
+					    			});
+					    		  
+					    		    var buttonRemove = $('<button>', {'html':'<i class="glyphicon glyphicon-trash"></i>', 'class': 'handlerRemoveImageBanner btn btn-danger btn-xs '});
+					    			
+					    			var buttonIcon = $('<button>', {'html':'<i class="glyphicon glyphicon-info-sign"></i>', 'class': 'handlerIconImageBanner btn btn-info btn-xs '});
+					    			var buttonIconMed = $('<button>', {'html':'<i class="glyphicon glyphicon-info-sign"></i>', 'class': 'handlerIconMedImageBanner btn btn-info btn-sm'});
+					    			var buttonPage = $('<button>', {'html':'<i class="glyphicon glyphicon-file"></i>', 'class': 'handlerPageImageBanner btn btn-info btn-xs '});
+					    			ui.item.attr('data-image', idImage);
+					    		  ui.item.find('td:eq(2)').html('');
+						    	  ui.item.find('td:eq(3)').html('').append(buttonIcon).append(buttonIconMed).append(buttonPage).append(buttonRemove);
+					    	  }
+					    	  
+				    	    }
+					    }).disableSelection();
+					
+					$( "#zfj_banner_page_uploader .table-striped tbody tr" ).draggable({
+					      connectToSortable: ".menu-item-settings .table-striped",
+					      helper: "clone",
+					      revert:'invalid'
+					    });
 				});
 			},
 

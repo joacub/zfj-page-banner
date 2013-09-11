@@ -51,7 +51,13 @@ class PageBanner
     protected $url;
     
     /**
-     * @ORM\OneToMany(targetEntity="ZfjPageBanner\Entity\Images", mappedBy="page")
+     * 
+     * @ORM\Column(name="params", type="array", nullable=true)
+     */
+    protected $params;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="ZfjPageBanner\Entity\Images", mappedBy="page", cascade={"ALL"}, orphanRemoval=true)
      */
     protected $images;
 
@@ -274,7 +280,21 @@ class PageBanner
 	{
 		$this->entity = $entity;
 	}
+	/**
+	 * @return the $params
+	 */
+	public function getParams ()
+	{
+		return $this->params;
+	}
 
+	/**
+	 * @param field_type $params
+	 */
+	public function setParams ($params)
+	{
+		$this->params = $params;
+	}
 
 
 

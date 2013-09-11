@@ -27,7 +27,7 @@ class Images
     protected $image;
     
     /**
-     * @ORM\ManyToOne(targetEntity="ZfjPageBanner\Entity\PageBanner", inversedBy="images")
+     * @ORM\ManyToOne(targetEntity="ZfjPageBanner\Entity\PageBanner", inversedBy="images", cascade={"ALL"})
      */
     protected $page;
     

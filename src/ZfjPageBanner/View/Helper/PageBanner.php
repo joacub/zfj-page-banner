@@ -48,6 +48,27 @@ class PageBanner extends AbstractHelper
 		return $pageBannerRepo->findOneBy(array('entity' => $optionsRouter['entity'], 'referenceId' => $result->getId()));
 	}
 	
+	public function getByParams($uri)
+	{
+		$uri = new Http($uri);
+		$router = $this->sm->get('router');
+		$request = new Request();
+		$request->setUri($uri);
+		$match = $router->match($request);
+		$params = $match->getParams();
+		$params['route'] = $match->getMatchedRouteName();
+		$params['query'] = $uri->getQueryAsArray();
+		
+		$pageBannerRepo = $this->em->getRepository('ZfjPageBanner\Entity\PageBanner');
+		$qb = $pageBannerRepo->createQueryBuilder('p');
+		
+		$qb->where($qb->expr()->eq('p.params', ':params'));
+		
+		$qb->setParameter('params', serialize($params));
+		
+		return $qb->getQuery()->getResult();
+	}
+	
 	public function getByUrl($url, $params)
 	{
 		$router = $this->sm->get('router');
