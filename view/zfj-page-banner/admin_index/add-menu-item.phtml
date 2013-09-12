@@ -170,17 +170,17 @@ $versionFile = $this->fileBank()->getVersion($image->getImage(), array(array(
 								</p>
 							</td>
 							<td></td>
-							<td><button
+							<td><button data-toggle="tooltip" title="Icono menu"
 									class="handlerIconImageBanner btn btn-info btn-xs <?php echo $image->getType() == 2 ? 'active' : ''?> ">
-									<i class="glyphicon glyphicon-info-sign"></i>
+									<i class="glyphicon glyphicon-list"></i>
 								</button>
-								<button
-									class="handlerIconMedImageBanner btn btn-info  btn-sm <?php echo $image->getType() == 3 ? 'active' : ''?> ">
-									<i class="glyphicon glyphicon-info-sign"></i>
+								<button data-toggle="tooltip" title="Icono portada"
+									class="handlerIconMedImageBanner btn btn-info  btn-xs <?php echo $image->getType() == 3 ? 'active' : ''?> ">
+									<i class="glyphicon glyphicon-th-large"></i>
 								</button>
-								<button
+								<button data-toggle="tooltip" title="Imagén cabecera"
 									class="handlerPageImageBanner btn btn-info  btn-xs <?php echo $image->getType() == 1 ? 'active' : ''?>">
-									<i class="glyphicon glyphicon-file"></i>
+									<i class="glyphicon glyphicon-picture"></i>
 								</button>
 								<button class="handlerRemoveImageBanner btn btn-danger  btn-xs">
 									<i class="glyphicon glyphicon-trash"></i>
