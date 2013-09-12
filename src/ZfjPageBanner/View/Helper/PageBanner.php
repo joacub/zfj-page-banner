@@ -87,7 +87,7 @@ class PageBanner extends AbstractHelper
 				return $this->getByParams($page->getHref());
 				break;
 			default:
-				return $this->getByParams($page->getRoute(), $page->getParams());
+				return $this->getByRoute($page->getRoute(), $page->getParams());
 				break;
 		}
 		
