@@ -259,16 +259,18 @@ class Admin_IndexController extends AbstractActionController
 						$options instanceof Options;
 						
 						$optionsRouter = $options->getRouter($match->getMatchedRouteName());
+						
+						$entityNavigation->setUrl($item['menu-item-url']);
+						$params = $match->getParams();
+						$params['route'] = $match->getMatchedRouteName();
+						$params['query'] = $uri->getQueryAsArray();
+						$entityNavigation->setParams($params);
 						/**
 						 * @todo Con los configs que no existan se podrian meter por defecto
 						 * hace falta meter mas programacion pensando estrategia todabia... 
 						 */
 						if(!$optionsRouter) {
-							$entityNavigation->setUrl($item['menu-item-url']);
-							$params = $match->getParams();
-							$params['route'] = $match->getMatchedRouteName();
-							$params['query'] = $uri->getQueryAsArray();
-							$entityNavigation->setParams($params);
+							
 						} else {
 							$repo = $em->getRepository($optionsRouter['entity']);
 							$entity = $repo->findOneBy(array($optionsRouter['identifier-db'] => $match->getParam($optionsRouter['identifier-param'])));
