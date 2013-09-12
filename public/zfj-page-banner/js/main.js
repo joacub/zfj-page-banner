@@ -110,7 +110,7 @@ var widgetInit = function() {
 		    		  var parts = ui.item.closest('li').attr('id').split('-');
 		    		  var idPage = parts[parts.length-1];
 		    		  
-		    		  var partsImage = ui.item.find('.preview img').attr('src').split('/');
+		    		  var partsImage = ui.item.find('[data-type="DELETE"]').data('url').split('=');
 		    		  partsImage = partsImage[partsImage.length-1];
 		    		  partsImage =  partsImage.split('-');
 		    		  
@@ -728,7 +728,7 @@ var widgetInit = function() {
 					    		  var parts = ui.item.closest('li').attr('id').split('-');
 					    		  var idPage = parts[parts.length-1];
 					    		  
-					    		  var partsImage = ui.item.find('.preview img').attr('src').split('/');
+					    		  var partsImage = ui.item.find('[data-type="DELETE"]').data('url').split('=');
 					    		  partsImage = partsImage[partsImage.length-1];
 					    		  partsImage =  partsImage.split('-');
 					    		  

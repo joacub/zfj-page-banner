@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Zend\Uri\Http;
 use Zend\Http\Request;
 use Nette\Diagnostics\Debugger;
+use Zend\Navigation\Page\Uri;
 
 class PageBanner extends AbstractHelper
 {
@@ -66,7 +67,7 @@ class PageBanner extends AbstractHelper
 		
 		$qb->setParameter('params', serialize($params));
 		
-		return $qb->getQuery()->getResult();
+		return $qb->getQuery()->getOneOrNullResult();
 	}
 	
 	public function getByUrl($url, $params)
@@ -77,6 +78,19 @@ class PageBanner extends AbstractHelper
 		$request->setUri($uri);
 		$match = $router->match($request);
 		return $this->getByRoute($match->getMatchedRouteName(), $params);
+	}
+	
+	public function getByNavigationPage($page)
+	{
+		switch (true) {
+			case ($page instanceof Uri):
+				return $this->getByParams($page->getHref());
+				break;
+			default:
+				return $this->getByParams($page->getRoute(), $page->getParams());
+				break;
+		}
+		
 	}
     
 }
