@@ -1,6 +1,7 @@
 <?php 
 use ZfJPageBanner\Collector\AbstractEntityCollector;
 use ZfJPageBanner\Collector\AbstractCollector;
+use Nette\Diagnostics\Debugger;
 foreach($this->menuItems as $item): ?>
 
 <li id="menu-item-<?php echo $item['data']->getId() ?>"
@@ -140,6 +141,15 @@ foreach($this->menuItems as $item): ?>
 		foreach ($images as $image) {
 			$imageFile = $fileBank->generateDynamicParameters(
 					$image->getImage());
+
+$versionFile = $this->fileBank()->getVersion($image->getImage(), array(array(
+				'resize' => array(
+					'maxWidth' => 80,
+					'maxHeight' => 80
+				)
+			)));
+
+
 			?>
 						<tr class="template-download fade in ui-draggable"
 							data-image="<?php echo $image->getId() ?>"
@@ -149,7 +159,7 @@ foreach($this->menuItems as $item): ?>
 									title="<?php echo $imageFile->getName()?>"
 									download="<?php echo $imageFile->getName()?>"
 									data-gallery="#zfj_banner_page_uploader-gallery"><img
-										src="<?php echo $imageFile->getUrl()?>"></a>
+										src="<?php echo $versionFile->getUrl()?>"></a>
 							</span></td>
 							<td>
 								<p class="name">

@@ -50,7 +50,7 @@ var widgetInit = function() {
 	
 	jQuery(document).ready(function($) {
 		var positionImageBanner = 0;
-		$('table').on('click', '.handlerRemoveImageBanner', function(e) {
+		$('body').on('click', '.handlerRemoveImageBanner', function(e) {
 			e.preventDefault();
 			var image = $(this).closest('tr').data('image');
 			var page = $(this).closest('tr').data('page');
@@ -65,7 +65,7 @@ var widgetInit = function() {
 			});
 		});
 		
-		$('table').on('click', '.handlerIconImageBanner', function(e) {
+		$('body').on('click', '.handlerIconImageBanner', function(e) {
 			e.preventDefault();
 			$(this).closest('td').find('button').removeClass('active');
 			$(this).addClass('active');
@@ -77,7 +77,7 @@ var widgetInit = function() {
 	   			});
 		});
 		
-		$('table').on('click', '.handlerIconMedImageBanner', function(e) {
+		$('body').on('click', '.handlerIconMedImageBanner', function(e) {
 			e.preventDefault();
 			$(this).closest('td').find('button').removeClass('active');
 			$(this).addClass('active');
@@ -89,7 +89,7 @@ var widgetInit = function() {
 	   			});
 		});
 		
-		$('table').on('click', '.handlerPageImageBanner', function(e) {
+		$('body').on('click', '.handlerPageImageBanner', function(e) {
 			e.preventDefault();
 			$(this).closest('td').find('button').removeClass('active');
 			$(this).addClass('active');
@@ -121,8 +121,8 @@ var widgetInit = function() {
 		    			  'data': {pageid:idPage, imageid:idImage},
 		    			  dataType:'json'
 		    			}).success(function(data) {
-		    				$.data(ui.item, 'image', data.image);
-		    				$.data(ui.item, 'page', idPage);
+		    				$.data(ui.item[0], 'image', data.image);
+		    				$.data(ui.item[0], 'page', idPage);
 		    			});
 		    		  
 		    		    var buttonRemove = $('<button>', {'html':'<i class="glyphicon glyphicon-trash"></i>', 'class': 'handlerRemoveImageBanner btn btn-danger btn-xs '});
@@ -130,7 +130,6 @@ var widgetInit = function() {
 		    			var buttonIcon = $('<button>', {'html':'<i class="glyphicon glyphicon-info-sign"></i>', 'class': 'handlerIconImageBanner btn btn-info btn-xs '});
 		    			var buttonIconMed = $('<button>', {'html':'<i class="glyphicon glyphicon-info-sign"></i>', 'class': 'handlerIconMedImageBanner btn btn-info btn-sm'});
 		    			var buttonPage = $('<button>', {'html':'<i class="glyphicon glyphicon-file"></i>', 'class': 'handlerPageImageBanner btn btn-info btn-xs '});
-		    			ui.item.attr('data-image', idImage);
 		    		  ui.item.find('td:eq(2)').html('');
 			    	  ui.item.find('td:eq(3)').html('').append(buttonIcon).append(buttonIconMed).append(buttonPage).append(buttonRemove);
 		    	  }
@@ -739,8 +738,8 @@ var widgetInit = function() {
 					    			  'data': {pageid:idPage, imageid:idImage},
 					    			  dataType:'json'
 					    			}).success(function(data) {
-					    				$.data(ui.item, 'image', data.image);
-					    				$.data(ui.item, 'page', idPage);
+					    				$.data(ui.item[0], 'image', data.image);
+					    				$.data(ui.item[0], 'page', idPage);
 					    			});
 					    		  
 					    		    var buttonRemove = $('<button>', {'html':'<i class="glyphicon glyphicon-trash"></i>', 'class': 'handlerRemoveImageBanner btn btn-danger btn-xs '});
@@ -748,7 +747,6 @@ var widgetInit = function() {
 					    			var buttonIcon = $('<button>', {'html':'<i class="glyphicon glyphicon-info-sign"></i>', 'class': 'handlerIconImageBanner btn btn-info btn-xs '});
 					    			var buttonIconMed = $('<button>', {'html':'<i class="glyphicon glyphicon-info-sign"></i>', 'class': 'handlerIconMedImageBanner btn btn-info btn-sm'});
 					    			var buttonPage = $('<button>', {'html':'<i class="glyphicon glyphicon-file"></i>', 'class': 'handlerPageImageBanner btn btn-info btn-xs '});
-					    			ui.item.attr('data-image', idImage);
 					    		  ui.item.find('td:eq(2)').html('');
 						    	  ui.item.find('td:eq(3)').html('').append(buttonIcon).append(buttonIconMed).append(buttonPage).append(buttonRemove);
 					    	  }
