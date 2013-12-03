@@ -56,6 +56,11 @@ class PageBanner extends AbstractHelper
 		$request = new Request();
 		$request->setUri($uri);
 		$match = $router->match($request);
+		
+		if(!$match) {
+		    return;
+		}
+		
 		$params = $match->getParams();
 		$params['route'] = $match->getMatchedRouteName();
 		$params['query'] = $uri->getQueryAsArray();
