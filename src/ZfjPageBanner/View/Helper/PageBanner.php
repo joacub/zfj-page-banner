@@ -45,7 +45,8 @@ class PageBanner extends AbstractHelper
 		$pageBannerRepo = $this->em->getRepository('ZfjPageBanner\Entity\PageBanner');
 		
 		$result = $repo->findOneBy(array($optionsRouter['identifier-db'] => $params[$optionsRouter['identifier-param']]));
-		
+		if(!$result)
+		    return false;
 		return $pageBannerRepo->findOneBy(array('entity' => $optionsRouter['entity'], 'referenceId' => $result->getId()));
 	}
 	
